@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.retrofit
+    implementation commonDependencies.gson
+
+    implementation commonDependencies.koin
+    implementation commonDependencies.koinExt
+
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

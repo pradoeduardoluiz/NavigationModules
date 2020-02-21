@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_characters"
+    app:startDestination="@id/charactersListFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/charactersListFragment"
+        android:name="br.com.prado.eduardo.luiz.navigationmodules.character.fragments.CharactersListFragment"
+        android:label="CharactersListFragment"
+        tools:layout="@layout/fragment_characters_list">
+        <action
+            android:id="@+id/action_charactersListFragment_to_characterDetailsFragment"
+            app:destination="@id/characterDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/characterDetailsFragment"
+        android:name="br.com.prado.eduardo.luiz.navigationmodules.character.fragments.CharacterDetailsFragment"
+        android:label="characterDetailsFragment"
+        tools:layout="@layout/fragment_character_details">
+        <argument
+            android:name="character"
+            app:argType="br.com.prado.eduardo.luiz.navigationmodules.data.models.Character" />
+    </fragment>
+</navigation>
