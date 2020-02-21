@@ -27,6 +27,8 @@ ext {
     nav_version = '2.2.1'
     glide_version = "4.11.0"
 
+    epoxy_version = '3.9.0'
+
     appDependencies = [
             koin             : "org.koin:koin-core:$koin_version",
             koinExt          : "org.koin:koin-core-ext:$koin_version",
@@ -58,7 +60,28 @@ ext {
             navigation       : "androidx.navigation:navigation-fragment:$nav_version",
             navigationUi     : "androidx.navigation:navigation-ui:$nav_version",
             navigationKtx    : "androidx.navigation:navigation-fragment-ktx:$nav_version",
-            navigationUiKtx  : "androidx.navigation:navigation-ui-ktx:$nav_version"
+            navigationUiKtx  : "androidx.navigation:navigation-ui-ktx:$nav_version",
+            epoxy            : "com.airbnb.android:epoxy:$epoxy_version",
+            epoxyProcessor   : "com.airbnb.android:epoxy-processor:$epoxy_version"
+    ]
+
+    locationDependencies = [
+            koin             : "org.koin:koin-core:$koin_version",
+            koinExt          : "org.koin:koin-core-ext:$koin_version",
+            koinAndroid      : "org.koin:koin-android:$koin_version",
+            koinViewModel    : "org.koin:koin-android-viewmodel:$koin_version",
+            koinArchtecture  : "org.koin:koin-android-architecture:$koin_architecture_version",
+            viewModelKtx     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtx_version",
+            logginInterceptor: "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version",
+            retrofit         : "com.squareup.retrofit2:retrofit:$retrofit_version",
+            glide            : "com.github.bumptech.glide:glide:$glide_version",
+            glideAnnotation  : "com.github.bumptech.glide:compiler:$glide_version",
+            navigation       : "androidx.navigation:navigation-fragment:$nav_version",
+            navigationUi     : "androidx.navigation:navigation-ui:$nav_version",
+            navigationKtx    : "androidx.navigation:navigation-fragment-ktx:$nav_version",
+            navigationUiKtx  : "androidx.navigation:navigation-ui-ktx:$nav_version",
+            epoxy            : "com.airbnb.android:epoxy:$epoxy_version",
+            epoxyProcessor   : "com.airbnb.android:epoxy-processor:$epoxy_version"
     ]
 
     navigationDependencies = [

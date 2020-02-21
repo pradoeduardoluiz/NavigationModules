@@ -6,15 +6,15 @@ data class LocationDTO(
     @SerializedName("id")
     val id: Int,
     @SerializedName("type")
-    val type: String,
+    val type: String?,
     @SerializedName("dimension")
-    val dimension: String,
+    val dimension: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("residents")
-    val residents: List<String>,
+    val residents: List<String>?,
     @SerializedName("url")
     val url: String,
     @SerializedName("created")
-    val created: String
+    val created: String?
 )

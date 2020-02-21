@@ -1,6 +1,7 @@
 package br.com.prado.eduardo.luiz.navigationmodules
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -13,7 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private val appBarConfiguration: AppBarConfiguration by lazy {
-        AppBarConfiguration.Builder(setOf(R.id.charactersListFragment)).build()
+        AppBarConfiguration.Builder(
+            setOf(R.id.charactersListFragment, R.id.locationListFragment)
+        ).build()
     }
 
     private val navController: NavController by lazy {
@@ -31,6 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavMain.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.charactersListFragment, R.id.locationListFragment -> bottomNavMain.visibility =
+                    View.VISIBLE
+                else -> bottomNavMain.visibility = View.GONE
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

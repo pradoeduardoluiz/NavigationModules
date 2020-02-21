@@ -28,7 +28,8 @@ abstract class UseCase<Type, in Params>(
                 NetworkError.ErrorStatus.NO_CONNECTION,
                 NetworkError.ErrorStatus.TIMEOUT -> response.onError(exception as Exception)
                 else -> {
-                    response.onFailure(error)
+                    exception.printStackTrace()
+                    //response.onFailure(error)
                 }
             }
         }

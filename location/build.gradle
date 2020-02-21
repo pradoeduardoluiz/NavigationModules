@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    correctErrorTypes = true
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -23,6 +29,15 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -32,17 +47,19 @@ dependencies {
     implementation project(":domain")
     implementation project(":common")
 
-    implementation characterDependencies.koin
-    implementation characterDependencies.koinExt
-    implementation characterDependencies.koinAndroid
-    implementation characterDependencies.koinViewModel
-    implementation characterDependencies.koinArchtecture
-    implementation characterDependencies.retrofit
-    implementation characterDependencies.navigation
-    implementation characterDependencies.navigationUi
-    implementation characterDependencies.navigationKtx
-    implementation characterDependencies.navigationUiKtx
-    implementation characterDependencies.glide
+    implementation locationDependencies.koin
+    implementation locationDependencies.koinExt
+    implementation locationDependencies.koinAndroid
+    implementation locationDependencies.koinViewModel
+    implementation locationDependencies.koinArchtecture
+    implementation locationDependencies.retrofit
+    implementation locationDependencies.navigation
+    implementation locationDependencies.navigationUi
+    implementation locationDependencies.navigationKtx
+    implementation locationDependencies.navigationUiKtx
+    implementation locationDependencies.glide
+    implementation locationDependencies.epoxy
+    kapt locationDependencies.epoxyProcessor
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'

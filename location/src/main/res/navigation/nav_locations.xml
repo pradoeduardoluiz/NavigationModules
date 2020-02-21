@@ -2,13 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/locations_nav"
+    android:id="@+id/nav_locations"
     app:startDestination="@id/locationListFragment"
     tools:ignore="UnusedNavigation">
-
-    <!--    <action-->
-    <!--        android:id="@+id/action_global_locationListFragment"-->
-    <!--        app:destination="@id/locationListFragment" />-->
 
     <fragment
         android:id="@+id/locationListFragment"
