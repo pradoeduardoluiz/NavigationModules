@@ -2,9 +2,12 @@ package br.com.prado.eduardo.luiz.navigationmodules.remote.di
 
 import android.content.Context
 import br.com.prado.eduardo.luiz.navigationmodules.data.repositories.CharacterRepository
+import br.com.prado.eduardo.luiz.navigationmodules.data.repositories.LocationRepository
 import br.com.prado.eduardo.luiz.navigationmodules.remote.Network
 import br.com.prado.eduardo.luiz.navigationmodules.remote.repositories.CharacterRepositoryRemote
+import br.com.prado.eduardo.luiz.navigationmodules.remote.repositories.LocationRepositoryRemote
 import br.com.prado.eduardo.luiz.navigationmodules.remote.services.CharacterAPI
+import br.com.prado.eduardo.luiz.navigationmodules.remote.services.LocationAPI
 import br.com.prado.eduardo.luiz.navigationmodules.remote.util.RemoteConstants
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -18,8 +21,10 @@ val remoteModule: Module = module {
         )
     }
     single { get<Retrofit>().create(CharacterAPI::class.java) }
+    single { get<Retrofit>().create(LocationAPI::class.java) }
 
     factory<CharacterRepository> { CharacterRepositoryRemote(api = get()) }
+    factory<LocationRepository> { LocationRepositoryRemote(api = get()) }
 
 }
 

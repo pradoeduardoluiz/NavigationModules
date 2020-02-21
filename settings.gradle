@@ -1,2 +1,2 @@
-include ':app', ':remote', ':data', ':domain', ':common', ':navigation', ':character'
+include ':app', ':remote', ':data', ':domain', ':common', ':navigation', ':character', ':location'
 rootProject.name='NavigationModules'

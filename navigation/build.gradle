@@ -29,6 +29,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":character")
+    implementation project(":location")
 
     implementation navigationDependencies.navigation
     implementation navigationDependencies.navigationUi

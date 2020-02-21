@@ -11,4 +11,5 @@ class CharacterRepositoryRemote(private val api: CharacterAPI) : CharacterReposi
     override suspend fun getCharacters(page: Int): List<Character> {
         return api.getCharacters().characters.map { it.toModel() }
     }
+
 }
