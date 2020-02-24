@@ -39,7 +39,8 @@ abstract class UseCase<Type, in Params>(
                 try {
                     response.onSuccess(it)
                 } catch (e: Exception) {
-                    response.onFailure(networkErrorHandler.traceErrorException(e))
+                    e.printStackTrace()
+                    //response.onFailure(networkErrorHandler.traceErrorException(e))
                 }
                 response.onComplete()
             }

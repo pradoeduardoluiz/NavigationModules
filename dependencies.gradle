@@ -28,6 +28,7 @@ ext {
     glide_version = "4.11.0"
 
     epoxy_version = '3.9.0'
+    paging_version = "2.1.1"
 
     appDependencies = [
             koin             : "org.koin:koin-core:$koin_version",
@@ -62,7 +63,8 @@ ext {
             navigationKtx    : "androidx.navigation:navigation-fragment-ktx:$nav_version",
             navigationUiKtx  : "androidx.navigation:navigation-ui-ktx:$nav_version",
             epoxy            : "com.airbnb.android:epoxy:$epoxy_version",
-            epoxyProcessor   : "com.airbnb.android:epoxy-processor:$epoxy_version"
+            epoxyProcessor   : "com.airbnb.android:epoxy-processor:$epoxy_version",
+            paging           : "androidx.paging:paging-runtime:$paging_version"
     ]
 
     locationDependencies = [
@@ -144,6 +146,7 @@ ext {
             coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
             koin      : "org.koin:koin-core:$koin_version",
             koinExt   : "org.koin:koin-core-ext:$koin_version",
+            paging    : "androidx.paging:paging-runtime:$paging_version"
     ]
 
     commonDependencies = [

@@ -1,46 +1,44 @@
 package br.com.prado.eduardo.luiz.navigationmodules.character.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.prado.eduardo.luiz.navigationmodules.common.NetworkError
-import br.com.prado.eduardo.luiz.navigationmodules.common.Resource
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import br.com.prado.eduardo.luiz.navigationmodules.data.models.Character
-import br.com.prado.eduardo.luiz.navigationmodules.domain.UseCaseResponse
 import br.com.prado.eduardo.luiz.navigationmodules.domain.usescases.character.GetCharacters
+import br.com.prado.eduardo.luiz.navigationmodules.domain.usescases.character.GetCharactersDataSource
 
-class CharactersListViewModel(private val charactersUseCase: GetCharacters) : ViewModel() {
+class CharactersListViewModel(
+    private val charactersUseCase: GetCharacters
+) : ViewModel() {
 
-    private val characters: MutableLiveData<Resource<List<Character>>> by lazy {
-        MutableLiveData<Resource<List<Character>>>()
+    private val characters: LiveData<PagedList<Character>>
+
+    init {
+        val config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(20)
+            .setPageSize(20)
+            .setEnablePlaceholders(false)
+            .build()
+        characters = initializedPagedListBuilder(config).build()
     }
 
-    fun getCharacters(): LiveData<Resource<List<Character>>> = characters
+    private fun initializedPagedListBuilder(config: PagedList.Config):
+            LivePagedListBuilder<Int, Character> {
 
-    fun fetchCharacters() {
-        characters.value = Resource.Loading
-
-        charactersUseCase.invoke(
-            scope = viewModelScope,
-            response = object : UseCaseResponse<List<Character>> {
-
-                override fun onComplete() {
-                    characters.value = Resource.Complete
-                }
-
-                override fun onSuccess(result: List<Character>) {
-                    characters.value = Resource.Success(result)
-                }
-
-                override fun onFailure(error: NetworkError) {
-                    characters.value = Resource.Error.Api(error)
-                }
-
-                override fun onError(exception: Exception) {
-                    characters.value = Resource.Error.Connection(exception)
-                }
+        val dataSourceFactory = object : DataSource.Factory<Int, Character>() {
+            override fun create(): DataSource<Int, Character> {
+                return GetCharactersDataSource(viewModelScope, charactersUseCase)
             }
-        )
+        }
+        return LivePagedListBuilder<Int, Character>(dataSourceFactory, config)
     }
+
+    fun getCharacters(): LiveData<PagedList<Character>> = characters
+
+//    fun fetchCharacters() {
+//
+//    }
 }
