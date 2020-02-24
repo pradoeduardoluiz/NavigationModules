@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -49,6 +50,9 @@ dependencies {
     implementation characterDependencies.navigationUiKtx
     implementation characterDependencies.glide
     implementation characterDependencies.paging
+    implementation characterDependencies.epoxy
+    implementation characterDependencies.epoxyPaging
+    kapt characterDependencies.epoxyProcessor
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'

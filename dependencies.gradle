@@ -64,6 +64,7 @@ ext {
             navigationUiKtx  : "androidx.navigation:navigation-ui-ktx:$nav_version",
             epoxy            : "com.airbnb.android:epoxy:$epoxy_version",
             epoxyProcessor   : "com.airbnb.android:epoxy-processor:$epoxy_version",
+            epoxyPaging      : "com.airbnb.android:epoxy-paging:$epoxy_version",
             paging           : "androidx.paging:paging-runtime:$paging_version"
     ]
 

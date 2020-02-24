@@ -1,6 +1,7 @@
 package br.com.prado.eduardo.luiz.navigationmodules.character.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
@@ -15,6 +16,9 @@ class CharactersListViewModel(
 ) : ViewModel() {
 
     private val characters: LiveData<PagedList<Character>>
+    private val isLoading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 
     init {
         val config = PagedList.Config.Builder()
@@ -30,15 +34,12 @@ class CharactersListViewModel(
 
         val dataSourceFactory = object : DataSource.Factory<Int, Character>() {
             override fun create(): DataSource<Int, Character> {
-                return GetCharactersDataSource(viewModelScope, charactersUseCase)
+                return GetCharactersDataSource(viewModelScope, charactersUseCase, isLoading)
             }
         }
         return LivePagedListBuilder<Int, Character>(dataSourceFactory, config)
     }
 
     fun getCharacters(): LiveData<PagedList<Character>> = characters
-
-//    fun fetchCharacters() {
-//
-//    }
+    fun isLoading(): LiveData<Boolean> = isLoading
 }
