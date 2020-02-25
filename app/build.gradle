@@ -32,13 +32,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":remote")
-    implementation project(":data")
-    implementation project(":character")
-    implementation project(":location")
-    implementation project(":navigation")
-    implementation project(":domain")
-    implementation project(":common")
+    implementation project(":core:remote")
+    implementation project(":core:data")
+    implementation project(":features:character")
+    implementation project(":features:location")
+    implementation project(":core:navigation")
+    implementation project(":core:domain")
+    implementation project(":core:common")
 
     implementation appDependencies.koin
     implementation appDependencies.koinExt
