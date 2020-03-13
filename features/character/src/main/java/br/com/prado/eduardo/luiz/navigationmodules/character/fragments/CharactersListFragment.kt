@@ -2,6 +2,7 @@ package br.com.prado.eduardo.luiz.navigationmodules.character.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import br.com.prado.eduardo.luiz.navigationmodules.character.R
 import br.com.prado.eduardo.luiz.navigationmodules.character.adapters.CharactersListController
 import br.com.prado.eduardo.luiz.navigationmodules.character.interfaces.OnCharacterClickListener
 import br.com.prado.eduardo.luiz.navigationmodules.character.viewmodels.CharactersListViewModel
+import br.com.prado.eduardo.luiz.navigationmodules.common.Resource
 import br.com.prado.eduardo.luiz.navigationmodules.data.models.Character
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -31,14 +33,14 @@ class CharactersListFragment : Fragment(), OnCharacterClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        subscribeObservers()
         initRecyclerView()
+        subscribeObservers()
     }
 
     private fun initRecyclerView() {
         recycler_view.apply {
-            visibility = View.VISIBLE
             adapter = controller.adapter
+            visibility = View.VISIBLE
         }
     }
 
@@ -47,8 +49,20 @@ class CharactersListFragment : Fragment(), OnCharacterClickListener {
             controller.submitList(it)
         })
 
-        viewModel.isLoading().observe(requireActivity(), Observer {
-            controller.isLoading = it
+        viewModel.getResource().observe(requireActivity(), Observer {
+            when (it) {
+                Resource.Loading -> {
+                    controller.isLoading = true
+                }
+                is Resource.Success -> {
+                    controller.isLoading = false
+                }
+                is Resource.Error.Api -> {
+                }
+                is Resource.Error.Connection -> {
+
+                }
+            }
         })
     }
 
@@ -60,4 +74,25 @@ class CharactersListFragment : Fragment(), OnCharacterClickListener {
                 )
         )
     }
+
+    override fun onStop() {
+        Log.d(TAG, "[onStop]: ${viewModel.getCharacters().value}")
+
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "[onDestroy]: ")
+        super.onDestroy()
+    }
+
+    override fun onDetach() {
+        Log.d(TAG, "[onDetach]: ")
+        super.onDetach()
+    }
+
+    companion object {
+        private const val TAG = "CharactersListFragment"
+    }
+
 }

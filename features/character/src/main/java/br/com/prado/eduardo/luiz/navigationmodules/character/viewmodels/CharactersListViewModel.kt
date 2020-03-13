@@ -4,42 +4,50 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import br.com.prado.eduardo.luiz.navigationmodules.common.Resource
 import br.com.prado.eduardo.luiz.navigationmodules.data.models.Character
 import br.com.prado.eduardo.luiz.navigationmodules.domain.usescases.character.GetCharacters
 import br.com.prado.eduardo.luiz.navigationmodules.domain.usescases.character.GetCharactersDataSource
+import br.com.prado.eduardo.luiz.navigationmodules.domain.usescases.character.GetCharactersDataSourceFactory
 
 class CharactersListViewModel(
     private val charactersUseCase: GetCharacters
 ) : ViewModel() {
 
-    private val characters: LiveData<PagedList<Character>>
-    private val isLoading: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
+    private val resource: MutableLiveData<Resource<Int>> by lazy {
+        MutableLiveData<Resource<Int>>()
     }
+
+    private val dataSourceFactory: GetCharactersDataSourceFactory by lazy {
+        GetCharactersDataSourceFactory(
+            viewModelScope,
+            charactersUseCase,
+            resource
+        )
+    }
+
+    private val dataSource: LiveData<GetCharactersDataSource> by lazy {
+        dataSourceFactory.getDataSource()
+    }
+
+    private val pagingConfig = PagedList.Config.Builder().run {
+        setPageSize(20)
+        setEnablePlaceholders(false)
+        build()
+    }
+
+    private val characters: LiveData<PagedList<Character>>
 
     init {
-        val config = PagedList.Config.Builder()
-            .setInitialLoadSizeHint(20)
-            .setPageSize(20)
-            .setEnablePlaceholders(false)
-            .build()
-        characters = initializedPagedListBuilder(config).build()
-    }
-
-    private fun initializedPagedListBuilder(config: PagedList.Config):
-            LivePagedListBuilder<Int, Character> {
-
-        val dataSourceFactory = object : DataSource.Factory<Int, Character>() {
-            override fun create(): DataSource<Int, Character> {
-                return GetCharactersDataSource(viewModelScope, charactersUseCase, isLoading)
-            }
-        }
-        return LivePagedListBuilder<Int, Character>(dataSourceFactory, config)
+        characters = LivePagedListBuilder<Int, Character>(dataSourceFactory, pagingConfig).build()
     }
 
     fun getCharacters(): LiveData<PagedList<Character>> = characters
-    fun isLoading(): LiveData<Boolean> = isLoading
+    fun getResource(): LiveData<Resource<Int>> = resource
+
+    fun invalidate() {
+        dataSource.value?.invalidate()
+    }
 }
