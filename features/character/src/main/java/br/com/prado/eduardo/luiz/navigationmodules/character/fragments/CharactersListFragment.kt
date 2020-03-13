@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.prado.eduardo.luiz.navigationmodules.character.R
 import br.com.prado.eduardo.luiz.navigationmodules.character.adapters.CharactersListController
 import br.com.prado.eduardo.luiz.navigationmodules.character.interfaces.OnCharacterClickListener
@@ -16,14 +17,19 @@ import br.com.prado.eduardo.luiz.navigationmodules.character.viewmodels.Characte
 import br.com.prado.eduardo.luiz.navigationmodules.common.Resource
 import br.com.prado.eduardo.luiz.navigationmodules.data.models.Character
 import kotlinx.android.synthetic.main.fragment_characters_list.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class CharactersListFragment : Fragment(), OnCharacterClickListener {
 
-    private val viewModel: CharactersListViewModel by viewModel()
+    private val viewModel: CharactersListViewModel by sharedViewModel(from = {
+        findNavController().getViewModelStoreOwner(R.id.nav_characters)
+    })
+
     private val controller: CharactersListController by lazy {
         CharactersListController()
     }
+
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +53,10 @@ class CharactersListFragment : Fragment(), OnCharacterClickListener {
     private fun subscribeObservers() {
         viewModel.getCharacters().observe(requireActivity(), Observer {
             controller.submitList(it)
+            if (viewModel.getCurrentPosition() != -1) {
+                recycler_view.layoutManager?.scrollToPosition(viewModel.getCurrentPosition())
+                viewModel.setCurrentPosition(-1)
+            }
         })
 
         viewModel.getResource().observe(requireActivity(), Observer {
@@ -75,10 +85,17 @@ class CharactersListFragment : Fragment(), OnCharacterClickListener {
         )
     }
 
-    override fun onStop() {
-        Log.d(TAG, "[onStop]: ${viewModel.getCharacters().value}")
-
-        super.onStop()
+    override fun onPause() {
+        val linearLayoutManager = (recycler_view.layoutManager as LinearLayoutManager)
+        val positionIndex =
+            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() != -1) {
+                linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+            } else {
+                linearLayoutManager.findFirstVisibleItemPosition()
+            }
+        viewModel.setCurrentPosition(positionIndex)
+        Log.d(TAG, "[onPause]: $positionIndex")
+        super.onPause()
     }
 
     override fun onDestroy() {

@@ -38,6 +38,8 @@ class CharactersListViewModel(
         build()
     }
 
+    private var currentPosition: Int = -1
+
     private val characters: LiveData<PagedList<Character>>
 
     init {
@@ -50,4 +52,12 @@ class CharactersListViewModel(
     fun invalidate() {
         dataSource.value?.invalidate()
     }
+
+    fun getCurrentPosition() = currentPosition
+
+    fun setCurrentPosition(position: Int) {
+        currentPosition = position
+    }
+
+
 }
